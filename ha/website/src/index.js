@@ -3,6 +3,18 @@ import ReactDOM from "react-dom/client";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
 const FormComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -18,8 +30,10 @@ const FormComponent = () => {
             };
             const response = await axios.post('https://ha-cluster.steve.ee/api/reboot', data);
             console.log(response.data);
+          Toast.fire({icon:'success',title:'Successfully rebooted ' + node});
         } catch (error) {
             console.error(error);
+          Toast.fire({icon:'error',title:'Failed to reboot ' + node});
         }
     };
 
@@ -37,8 +51,10 @@ const FormComponent = () => {
         data,
       );
       console.log(response.data);
+      Toast.fire({icon:'success',title:'Successfully added new user'});
     } catch (error) {
       console.error(error);
+      Toast.fire({icon:'error',title:'Failed to add new user'});
     }
   };
 
@@ -61,6 +77,7 @@ const FormComponent = () => {
       } 
     } catch (error) {
       console.error(error);
+      Toast.fire({icon:'error',title:'Failed to retrieve user information'});
     }
   };
 
@@ -126,9 +143,9 @@ const FormComponent = () => {
                 </option>
             ))}
           </select>
-          <button onClick={handleReboot} style={buttonStyle}>Submit</button>
+          <button onClick={handleReboot} style={buttonStyle}>Reboot Node</button>
         </div>
-      <a href="http://ha-status.steve.ee:7000" stlye={buttonStyle}>
+      <a target="_blank" href="http://ha-status.steve.ee:7000" stlye={buttonStyle}>
         View Server status
       </a>
     </div>
