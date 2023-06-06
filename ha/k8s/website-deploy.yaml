@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: website-deploy
+  template:
+    metadata:
+      labels:
+        app: website-deploy
+    spec:
+      containers:
+      - name: website-deploy
+        image: stevenewald/ha_db_website
+        ports:
+        - containerPort: 3000
