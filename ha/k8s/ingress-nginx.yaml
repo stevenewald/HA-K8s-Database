@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-router
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - pathType: Prefix
+        path: /api
+        backend:
+          service:
+            name: api-lb
+            port:
+              number: 80
+      # - pathType: Prefix
+        # path: /
+        # backend:
+          # service:
+            # name: website-lb
+            # port:
+              # number: 80

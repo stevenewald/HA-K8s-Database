@@ -34,7 +34,7 @@ const instanceMappings = {
   "etcd": "i-05671c346e9be6aee",
   "haproxy": "i-0b98a2c01e34765eb",
 };
-app.post("/reboot", async (req, res) => {
+app.post("/api/reboot", async (req, res) => {
   const { instanceId } = req.body;
   const params = {
     InstanceIds: [instanceMappings[instanceId]],
@@ -53,7 +53,7 @@ app.post("/reboot", async (req, res) => {
   }
 });
 
-app.get("/status", async (_, res) => {
+app.get("/api/status", async (_, res) => {
   const params = {
     InstanceIds: Object.values(instanceMappings),
   };
@@ -77,7 +77,7 @@ app.get("/status", async (_, res) => {
   }
 });
 
-app.post("/add", async (req, res) => {
+app.post("/api/add", async (req, res) => {
   const { first, last, date } = req.body;
 
   try {
@@ -98,7 +98,7 @@ app.post("/add", async (req, res) => {
   }
 });
 
-app.get("/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit);
     const query = {
