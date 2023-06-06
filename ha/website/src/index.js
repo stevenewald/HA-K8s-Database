@@ -66,7 +66,7 @@ const FormComponent = () => {
         const formattedData = response.data.data.map((info, index) => (
           `<p><b>User ${
             index + 1
-          }:</b> ${info.first_name} - ${info.last_name} - ${info.birth_date}</p>`
+          }:</b> ${info.first_name} - ${info.last_name} - ${info.birth_date.split("T")[0]}</p>`
         )).join("");
 
         Swal.fire({
@@ -78,6 +78,36 @@ const FormComponent = () => {
     } catch (error) {
       console.error(error);
       Toast.fire({icon:'error',title:'Failed to retrieve user information'});
+    }
+  };
+  const reverseIM = {
+  "i-07500046b93073c66":"node-1",
+  "i-0dd289054e0ad6fd3":"node-2",
+  "i-0e1da344b591f45ce":"node-3",
+  "i-05671c346e9be6aee":"etcd",
+  "i-0b98a2c01e34765eb":"haproxy"
+};
+
+const fetchNodeInfo = async () => {
+    try {
+      const response = await axios.get("https://ha-cluster.steve.ee/api/status");
+
+     if (response.data.status === "success") {
+        const formattedData = response.data.data.map((info, index) => (
+          `<p><b>Node ${
+            index + 1
+          }:</b> ${reverseIM[info.InstanceId]} - ${info.State}</p>`
+        )).join("");
+
+        Swal.fire({
+          title: "Node Info",
+          html: formattedData,
+          confirmButtonText: "Close",
+        });
+      } 
+    } catch (error) {
+      console.error(error);
+      Toast.fire({icon:'error',title:'Failed to retrieve node status'});
     }
   };
 
@@ -131,6 +161,10 @@ const FormComponent = () => {
       <button onClick={fetchUserInfo} style={buttonStyle}>
         Fetch User Info
       </button>
+      <button onClick={fetchNodeInfo} style={buttonStyle}>
+        View Node Status
+      </button>
+
       <div>
         <select
             value={node}
@@ -146,7 +180,7 @@ const FormComponent = () => {
           <button onClick={handleReboot} style={buttonStyle}>Reboot Node</button>
         </div>
       <a target="_blank" href="http://ha-status.steve.ee:7000" stlye={buttonStyle}>
-        View Server status
+        View DB/Cluster Status
       </a>
     </div>
   );
