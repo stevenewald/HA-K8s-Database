@@ -49,7 +49,7 @@ app.post("/api/reboot", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ status: "error", message: "Instance reboot error" });
+    res.status(200).json({ status: "error", message: "Instance reboot error" });
   }
 });
 
@@ -70,7 +70,7 @@ app.get("/api/status", async (_, res) => {
     res.status(200).json({ status: "success", data: totalInstances });
   } catch (err) {
     console.error(err);
-    res.status(500).json({
+    res.status(200).json({
       status: "error",
       message: "Could not retrieve instance status",
     });
@@ -94,7 +94,7 @@ app.post("/api/add", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ status: "error", message: "Database error" });
+    res.status(200).json({ status: "error", message: "Database error" });
   }
 });
 
@@ -110,7 +110,7 @@ app.get("/api/users", async (req, res) => {
     res.status(200).json({ status: "success", data: result.rows });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ status: "error", data: -1 });
+    res.status(200).json({ status: "error", data: -1 });
   }
 });
 
