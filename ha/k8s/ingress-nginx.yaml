@@ -15,10 +15,10 @@ spec:
             name: api-lb
             port:
               number: 80
-      # - pathType: Prefix
-        # path: /
-        # backend:
-          # service:
-            # name: website-lb
-            # port:
-              # number: 80
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: website-lb
+            port:
+              number: 80
